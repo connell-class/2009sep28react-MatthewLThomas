@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +30,47 @@ public class EvaluationService {
 	 * @param phrase
 	 * @return
 	 */
-	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public  String acronym(String phrase) {
+	
+		//Loop to search through string to find whitespace or punctuation without whitespace before or after
+		ArrayList<Character> list = new ArrayList<>();
+		int i = 0;
+		while (i < phrase.length()) {
+		
+			if (i == 0) {
+				list.add(phrase.charAt(i));
+			}
+			//Note each time Whitespace / punctuation without whitespace is found and Store the chars in a list
+			if (phrase.charAt(i) == ' ' || punctuation(i,phrase)) {
+				list.add(phrase.charAt(i+1));
+			}
+			i++;
+		}
+		StringBuilder builder = new StringBuilder();
+		for(Character ch: list) {
+			builder.append(ch);
+		}
+		String output = builder.toString();
+		//Capitalize list
+		output = output.toUpperCase();
+		
+		return output;
 	}
-
+	public boolean punctuation(int i, String phrase) {
+		switch(phrase.charAt(i)) {
+		case '-':
+		case '+':
+		case '.':
+		case ':':
+		case '_':
+			if (phrase.charAt(i+1) != ' ')
+				return true;
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
 	/**
 	 * 3. Determine if a triangle is equilateral, isosceles, or scalene. An
 	 * equilateral triangle has all three sides the same length. An isosceles
@@ -84,18 +121,27 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo && sideTwo == sideThree) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo ^ sideTwo == sideThree ^ sideThree == sideOne) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			if(sideOne != sideTwo && sideTwo != sideThree && sideThree != sideOne) {
+				return true;
+			}else {
 			return false;
+			}
 		}
 
 	}
@@ -116,8 +162,40 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	
+		int score = 0;
+		for(int i=0;  i< string.length(); i++) {
+			switch(string.toLowerCase().charAt(i)) {
+				case 'q': 	
+				case 'z': score += 10;break;
+				case 'j': 
+				case 'x': score += 8;break;
+				case 'k': score += 5;break;
+				case 'y':
+				case 'w':
+				case 'v':
+				case 'h':
+				case 'f': score += 4;break;
+				case 'p':
+				case 'm':
+				case 'c':
+				case 'b': score += 3;break;
+				case 'd':
+				case 'g': score += 2;break;
+				case 'a':
+				case 'e':
+				case 'i':
+				case 'o':
+				case 'u':
+				case 'l':
+				case 'n':
+				case 'r':
+				case 's':
+				case 't': score +=1;break;
+				// left the default as blank to not count punctuation as being worth a point
+			}
+		}
+		return score;
 	}
 
 	/**
@@ -152,8 +230,43 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		StringBuilder str = new StringBuilder();
+		str.append(string);
+		// remove (,),-, ,.,+ from str and check if invalid number
+		for(int i = 0; i<str.length(); i++) {
+			switch(str.charAt(i)){
+				case '(':
+				case ')':
+				case ',':
+				case ' ':
+				case '.':
+				case '-':
+				case '+': str.deleteCharAt(i);i--;System.out.println(str.toString());break;
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case '0': break;
+				default:
+					throw new IllegalArgumentException("INVALID PHONE NUMBER: Only use numbers and and appropriate symbols please.");
+			}
+		}
+		// If stringBuilder[0] == 1, remove 1
+		if (str.charAt(0)==1) {
+			str.deleteCharAt(0);
+		// if stringBuilder.length() != 10
+		//		Throw Illegal Argument Exception
+		}if (str.length() != 10) {
+			throw new IllegalArgumentException("INVALID PHONE NUMBER: This code only processes 10 or 11 digit, North American phone numbers.");
+		}
+		
+		return str.toString();
 	}
 
 	/**
@@ -167,6 +280,14 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
+		//check out String.split();
+		//Always check out the methods available for a class if you are stuck
+		String[] strings=string.split(" ");
+		StringBuilder[][] stringB = new StringBuilder[6][6];
+		for(int i = 0; i< strings.length; i++) {
+			
+		}
+		
 		return null;
 	}
 
