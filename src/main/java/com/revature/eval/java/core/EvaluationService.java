@@ -2,6 +2,7 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -282,13 +283,18 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//check out String.split();
 		//Always check out the methods available for a class if you are stuck
-		String[] strings=string.split(" ");
-		StringBuilder[][] stringB = new StringBuilder[6][6];
-		for(int i = 0; i< strings.length; i++) {
-			
-		}
+		String[] strings = string.split(" ");
+		Map<String, Integer> stringList = new HashMap();
+		for(int i = 0; i < strings.length; i++) {
+			if(stringList.get(strings[i]) == null) {
+				stringList.put(strings[i], 1);
+				
+			}else{
+				stringList.put(strings[i], stringList.get(strings[i])+1);
+			}
+		}	
 		
-		return null;
+		return stringList;
 	}
 
 	/**
