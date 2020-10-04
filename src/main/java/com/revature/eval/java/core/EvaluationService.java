@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 
@@ -283,8 +285,10 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//check out String.split();
 		//Always check out the methods available for a class if you are stuck
-		String[] strings = string.split(" ");
-		Map<String, Integer> stringList = new HashMap();
+		//RegEx is love, RegEx is life.
+	
+		String[] strings = string.split("[ ,\n]{1,2}");
+		Map<String, Integer> stringList = new HashMap<String,Integer>();
 		for(int i = 0; i < strings.length; i++) {
 			if(stringList.get(strings[i]) == null) {
 				stringList.put(strings[i], 1);
@@ -334,10 +338,36 @@ public class EvaluationService {
 	 */
 	static class BinarySearch<T> {
 		private List<T> sortedList;
-
+		
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
+			
+			int newT = Integer.parseInt(t.toString());
+			return binarySearch(newT, 0, sortedList.size()-1);
+		}
+		
+		public int binarySearch(int t, int left, int right) {
+			if (sortedList.size() >= 1) {
+				System.out.println("L: "+left+", R:"+right); 
+				int mid = left + (right-1)/2; 	// Middle Formula
+				//if the element is at the middle
+				System.out.println(mid);
+				if (Integer.parseInt(sortedList.get(mid).toString()) == t) {
+					System.out.println("a");
+					return mid;
+					
+				}
+				//if the element is smaller than an object in the middle, search lower half
+				if (t < Integer.parseInt(sortedList.get(mid).toString())) {
+					return binarySearch(t, left, mid-1);
+				}else {
+				//if the element is larger than the object in the middle, search upper half
+				
+					return binarySearch(t,mid-1,right);
+				}
+			}
 			return 0;
+		
 		}
 
 		public BinarySearch(List<T> sortedList) {
