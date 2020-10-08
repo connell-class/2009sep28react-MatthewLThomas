@@ -282,7 +282,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
+		
 		//check out String.split();
 		//Always check out the methods available for a class if you are stuck
 		//RegEx is love, RegEx is life.
@@ -340,7 +340,6 @@ public class EvaluationService {
 		private List<T> sortedList;
 		
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
 			
 			int newT = Integer.parseInt(t.toString());
 			return binarySearch(newT, 0, sortedList.size()-1);
@@ -348,12 +347,12 @@ public class EvaluationService {
 		
 		public int binarySearch(int t, int left, int right) {
 			if (sortedList.size() >= 1) {
-				System.out.println("L: "+left+", R:"+right); 
+				
 				int mid = left + (right-1)/2; 	// Middle Formula
-				//if the element is at the middle
-				System.out.println(mid);
+				//if the element is at the middle return middle element
+				
 				if (Integer.parseInt(sortedList.get(mid).toString()) == t) {
-					System.out.println("a");
+					
 					return mid;
 					
 				}
@@ -403,8 +402,59 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		// split array on spaces
+		String[] strings = new String[1]; 
+		if(string.contains(" ")) {
+			strings = string.split(" ");
+		}else {
+			strings[0] = string;
+		}
+		System.out.println(strings.length);
+		// If word begin with consonant
+		StringBuilder sB = new StringBuilder();
+		int length = 0;
+		for(int i = 0; i<strings.length; i++) {
+			System.out.println(i);
+			if(strings[i].startsWith("y")||strings[i].startsWith("r")||strings[i].startsWith("f")) {
+				System.out.println("wprld");
+				System.out.println(i);
+				System.out.println(strings[i].charAt(0));
+				sB.append(strings[i]);
+				sB.append(strings[i].charAt(0));
+				sB.deleteCharAt(length);
+			}else
+			if (strings[i].startsWith("th")||strings[i].startsWith("qu")) {
+//				put consonant at the end
+				System.out.println("hello");
+				sB.append(strings[i]);
+				sB.append(strings[i].charAt(0));
+				sB.append(strings[i].charAt(1));
+				sB.deleteCharAt(0);
+				sB.deleteCharAt(0);
+			}else 
+			if(strings[i].startsWith("sch")){
+				System.out.println("test");
+				sB.append(strings[i]);
+				sB.append(strings[i].charAt(0));
+				sB.append(strings[i].charAt(1));
+				sB.append(strings[i].charAt(2));
+				sB.deleteCharAt(0);
+				sB.deleteCharAt(0);
+				sB.deleteCharAt(0);
+			}else {
+				sB.append(strings[i]);
+			}
+			// Put "ay" on the end
+			sB.append("ay");
+			if(strings.length > 1) {
+				if(length < 15)
+				sB.append(" ");
+			}
+			length = sB.length();
+		// AND
+		}
+		return sB.toString();
 	}
 
 	/**
@@ -423,8 +473,26 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		int c = 0,a,temp;
+		temp = input;
+		int noOfDigits = String.valueOf(input).length();
+		if (input > 9 ) { 
+			while (input > 0) {
+				System.out.println(input%10);
+				a=input%10;
+				int aToThePowerOfNoOfDigits = 1;
+				input /= 10;
+				for(int i = 0; i<noOfDigits; i++) {
+					aToThePowerOfNoOfDigits *= a;
+				}
+				c += aToThePowerOfNoOfDigits;
+				System.out.println(c);
+			}
+		}else {
+			c = input;
+		}
+		return temp == c;
 	}
 
 	/**
@@ -438,10 +506,55 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// give it time, she works eventually. like, 675,941 iterations.
+		
+		
+		long prime = 2L;
+		long iteratedFactor = l;
+		List<Long> primeFactors = new ArrayList<Long>();
+		long pFi = 0;
+		while(pFi<l/2) {
+			if (iteratedFactor%prime == 0) {
+				iteratedFactor /= prime;
+				
+				primeFactors.add(prime);		
+			}	
+			for (int i = 0; i<primeFactors.size(); i++) {
+				if (iteratedFactor%primeFactors.get(i) == 0) {
+					iteratedFactor /= primeFactors.get(i);
+					
+					primeFactors.add(prime);
+				}
+			}	
+			prime = nextPrime(prime, l);
+			
+			pFi++;
+		}
+		return primeFactors;
 	}
 
+	private long nextPrime(long prime, long l) {
+		boolean flag = false;
+		int flags = 0;
+		long num = prime;
+		
+		do {
+			num++;
+			for(long i = 2; i<= num; i++) {
+				if(num % i == 0) {
+					flags++;						
+					break;
+				}if (flags == 0) {
+					flag = true;
+				}
+			}	
+			flags = 0;
+			System.out.println(num);
+		}while(!flag && num < l/2);
+		
+		return num;
+	}
+	
 	/**
 	 * 11. Create an implementation of the rotational cipher, also sometimes called
 	 * the Caesar cipher.
@@ -477,8 +590,42 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String plaintext = "abcdefghijklmnopqrstuvwxyz";
+			String PLAINTEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			String plainTEXT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			System.out.println(plaintext.indexOf(','));
+			
+			StringBuilder cypherWIP = new StringBuilder();
+			StringBuilder CYPHER = new StringBuilder();
+			StringBuilder sB = new StringBuilder();
+			//build cypher
+			for (int i = 0; i<26; i++) {
+				if(key+i<plaintext.length()) {
+					cypherWIP.append(plaintext.charAt(key+i));
+				}else {
+					cypherWIP.append(plaintext.charAt((key+i)-26));
+				}
+			}
+			for (int i = 0; i<26; i++) {
+				if(key+i<PLAINTEXT.length()) {
+					CYPHER.append(PLAINTEXT.charAt(key+i));
+				}else {
+					CYPHER.append(PLAINTEXT.charAt((key+i)-26));
+				}
+			}
+			cypherWIP.append(CYPHER.toString());
+		
+			String cypher = cypherWIP.toString();
+			System.out.println(cypher);
+			for(int i=0; i<string.length(); i++) {
+				if(string.charAt(i)!= '1' && string.charAt(i)!= '2' && string.charAt(i)!= '3' && string.charAt(i)!= '4' && string.charAt(i)!= '5' && string.charAt(i)!= '6' && string.charAt(i)!= '7' && string.charAt(i)!= '8' && string.charAt(i)!= '9' && string.charAt(i)!=  '0' && string.charAt(i)!= '\'' && string.charAt(i)!= '.'&& string.charAt(i)!= '!' && string.charAt(i)!= ','&& string.charAt(i)!= ' ') {
+					sB.append(cypher.charAt(plainTEXT.indexOf(string.charAt(i))));
+				}else {
+					sB.append(string.charAt(i));
+				}
+			}
+			return sB.toString();
 		}
 
 	}
@@ -496,8 +643,50 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		long nthPrime = 2;
+		if (i < 1) {
+			throw new IllegalArgumentException();
+			
+		}
+		if(i == 1) {
+			return (int)nthPrime;
+		}
+		
+		for (int j = 1; j < i; j++) {
+			nthPrime = nextPrime(nthPrime);
+			System.out.println(nthPrime);
+		}
+		return (int)nthPrime;
+	}
+	private long nextPrime(long prime) {
+		boolean flag = false;
+		int flags = 0;
+		long num = prime;
+		
+		do {
+			
+			num++;
+			System.out.println("num is " + num);
+			for(long i = 2; i<= num; i++) {
+				
+				if(num % i == 0) {
+					System.out.println("break");
+					flags++;
+					continue;
+					
+					
+				}if (flags == 0) {
+					flag = true;
+				}else {
+					flag = false;
+				}
+			}	
+			flags = 0;
+			
+		}while(!flag);
+		
+		return num;
 	}
 
 	/**
@@ -533,8 +722,33 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			string = string.toLowerCase();
+			String plaintext = "abcdefghijklmnopqrstuvwxyz";
+			String cypher =	   "zyxwvutsrqponmlkjihgfedcba";
+			StringBuilder sB = new StringBuilder();
+			int stringIndex = 0;
+			for(int i=0; i<string.length(); i++) {
+				if(stringIndex != 0 && string.charAt(i) != '.') 
+					{if (stringIndex%5 == 0) {
+						if (sB.charAt(sB.length()-1)!= ' ') {
+							sB.append(" ");
+						}
+					}
+				}
+				System.out.println(string.charAt(i)==' ');
+				if(string.charAt(i)==',' || string.charAt(i)== ' ' || string.charAt(i)== '.'){
+					continue;
+				}
+				if(string.charAt(i)!= '1' && string.charAt(i)!= '2' && string.charAt(i)!= '3' && string.charAt(i)!= '4' && string.charAt(i)!= '5' && string.charAt(i)!= '6' && string.charAt(i)!= '7' && string.charAt(i)!= '8' && string.charAt(i)!= '9' && string.charAt(i)!=  '0') {
+					sB.append(cypher.charAt(plaintext.indexOf(string.charAt(i))));
+					
+				}else{
+					sB.append(string.charAt(i));
+				}
+				stringIndex++;
+			}
+			return sB.toString();
 		}
 
 		/**
@@ -544,8 +758,16 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String plaintext = "abcdefghijklmnopqrstuvwxyz1234567890";
+			String cypher =	   "zyxwvutsrqponmlkjihgfedcba1234567890";
+			StringBuilder sB = new StringBuilder();
+			for( int i = 0; i<string.length(); i++) {
+				if( string.charAt(i) != ' ') {
+					sB.append(plaintext.charAt(cypher.indexOf(string.charAt(i))));
+				}
+			}
+			return sB.toString();
 		}
 	}
 
@@ -573,7 +795,35 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		
+		
+		boolean valid = false;
+		//sanitize string
+		StringBuilder sB = new StringBuilder();
+		for(int i = 0; i < string.length(); i++) {
+			if (string.charAt(i) != '-') {
+				sB.append(string.charAt(i));
+			}
+		}
+		String digits_only = sB.toString();
+		int lastDigit = 0;
+		// check if last char is 0-9 or X
+		String pattern = "[0-9X]";
+		Pattern r = Pattern.compile(pattern);
+		sB.delete(0, sB.length());
+		sB.append(digits_only.charAt(digits_only.length()-1));
+		String lastIndex = sB.toString();
+		System.out.println(lastIndex);
+		Matcher m = r.matcher(lastIndex);
+		if (m.find()) {
+			if (lastIndex.charAt(0) == 'X') {
+				lastDigit = 10;
+			}else {
+				lastDigit = Integer.parseInt(lastIndex);
+			}
+			//TODO write implementation for ISBN algorithm
+		}
+		return valid;
 	}
 
 	/**
