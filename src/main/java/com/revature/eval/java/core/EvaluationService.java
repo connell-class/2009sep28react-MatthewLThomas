@@ -1,10 +1,15 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -245,7 +250,7 @@ public class EvaluationService {
 				case ' ':
 				case '.':
 				case '-':
-				case '+': str.deleteCharAt(i);i--;System.out.println(str.toString());break;
+				case '+': str.deleteCharAt(i);i--;break;
 				case '1':
 				case '2':
 				case '3':
@@ -410,23 +415,19 @@ public class EvaluationService {
 		}else {
 			strings[0] = string;
 		}
-		System.out.println(strings.length);
+		
 		// If word begin with consonant
 		StringBuilder sB = new StringBuilder();
 		int length = 0;
 		for(int i = 0; i<strings.length; i++) {
-			System.out.println(i);
+			
 			if(strings[i].startsWith("y")||strings[i].startsWith("r")||strings[i].startsWith("f")) {
-				System.out.println("wprld");
-				System.out.println(i);
-				System.out.println(strings[i].charAt(0));
 				sB.append(strings[i]);
 				sB.append(strings[i].charAt(0));
 				sB.deleteCharAt(length);
 			}else
 			if (strings[i].startsWith("th")||strings[i].startsWith("qu")) {
 //				put consonant at the end
-				System.out.println("hello");
 				sB.append(strings[i]);
 				sB.append(strings[i].charAt(0));
 				sB.append(strings[i].charAt(1));
@@ -434,7 +435,6 @@ public class EvaluationService {
 				sB.deleteCharAt(0);
 			}else 
 			if(strings[i].startsWith("sch")){
-				System.out.println("test");
 				sB.append(strings[i]);
 				sB.append(strings[i].charAt(0));
 				sB.append(strings[i].charAt(1));
@@ -479,7 +479,7 @@ public class EvaluationService {
 		int noOfDigits = String.valueOf(input).length();
 		if (input > 9 ) { 
 			while (input > 0) {
-				System.out.println(input%10);
+			
 				a=input%10;
 				int aToThePowerOfNoOfDigits = 1;
 				input /= 10;
@@ -487,7 +487,7 @@ public class EvaluationService {
 					aToThePowerOfNoOfDigits *= a;
 				}
 				c += aToThePowerOfNoOfDigits;
-				System.out.println(c);
+			
 			}
 		}else {
 			c = input;
@@ -526,7 +526,9 @@ public class EvaluationService {
 					primeFactors.add(prime);
 				}
 			}	
-			prime = nextPrime(prime, l);
+			if (prime < l/2) {
+				prime = nextPrime(prime, l);
+			}
 			
 			pFi++;
 		}
@@ -550,7 +552,7 @@ public class EvaluationService {
 			}	
 			flags = 0;
 			System.out.println(num);
-		}while(!flag && num < l/2);
+		}while(!flag);
 		
 		return num;
 	}
@@ -594,7 +596,7 @@ public class EvaluationService {
 			String plaintext = "abcdefghijklmnopqrstuvwxyz";
 			String PLAINTEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			String plainTEXT = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			System.out.println(plaintext.indexOf(','));
+		
 			
 			StringBuilder cypherWIP = new StringBuilder();
 			StringBuilder CYPHER = new StringBuilder();
@@ -617,7 +619,7 @@ public class EvaluationService {
 			cypherWIP.append(CYPHER.toString());
 		
 			String cypher = cypherWIP.toString();
-			System.out.println(cypher);
+		
 			for(int i=0; i<string.length(); i++) {
 				if(string.charAt(i)!= '1' && string.charAt(i)!= '2' && string.charAt(i)!= '3' && string.charAt(i)!= '4' && string.charAt(i)!= '5' && string.charAt(i)!= '6' && string.charAt(i)!= '7' && string.charAt(i)!= '8' && string.charAt(i)!= '9' && string.charAt(i)!=  '0' && string.charAt(i)!= '\'' && string.charAt(i)!= '.'&& string.charAt(i)!= '!' && string.charAt(i)!= ','&& string.charAt(i)!= ' ') {
 					sB.append(cypher.charAt(plainTEXT.indexOf(string.charAt(i))));
@@ -655,7 +657,7 @@ public class EvaluationService {
 		
 		for (int j = 1; j < i; j++) {
 			nthPrime = nextPrime(nthPrime);
-			System.out.println(nthPrime);
+		
 		}
 		return (int)nthPrime;
 	}
@@ -667,11 +669,11 @@ public class EvaluationService {
 		do {
 			
 			num++;
-			System.out.println("num is " + num);
+		
 			for(long i = 2; i<= num; i++) {
 				
 				if(num % i == 0) {
-					System.out.println("break");
+				
 					flags++;
 					continue;
 					
@@ -736,7 +738,7 @@ public class EvaluationService {
 						}
 					}
 				}
-				System.out.println(string.charAt(i)==' ');
+				
 				if(string.charAt(i)==',' || string.charAt(i)== ' ' || string.charAt(i)== '.'){
 					continue;
 				}
@@ -794,7 +796,6 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
 		
 		
 		boolean valid = false;
@@ -805,24 +806,36 @@ public class EvaluationService {
 				sB.append(string.charAt(i));
 			}
 		}
-		String digits_only = sB.toString();
+		String isbn = sB.toString();
 		int lastDigit = 0;
 		// check if last char is 0-9 or X
-		String pattern = "[0-9X]";
-		Pattern r = Pattern.compile(pattern);
-		sB.delete(0, sB.length());
-		sB.append(digits_only.charAt(digits_only.length()-1));
-		String lastIndex = sB.toString();
-		System.out.println(lastIndex);
+		Pattern r = Pattern.compile("[0-9X]");
+		// check if body is only digits
+		Pattern s = Pattern.compile("[^0-9]");
+		sB.deleteCharAt(isbn.length()-1);
+		String digitsOnly = sB.toString();
+		String lastIndex = Character.toString(isbn.charAt(isbn.length()-1));
+		Matcher n = s.matcher(digitsOnly);
 		Matcher m = r.matcher(lastIndex);
+		if(n.find()) {
+			return false;
+		}else {
 		if (m.find()) {
 			if (lastIndex.charAt(0) == 'X') {
 				lastDigit = 10;
 			}else {
 				lastDigit = Integer.parseInt(lastIndex);
 			}
-			//TODO write implementation for ISBN algorithm
-		}
+			int store = 0;
+			for(int i = 0, j=isbn.length(); i<(isbn.length()-1); i++, j--) {
+				
+				store += (Integer.parseInt(Character.toString(isbn.charAt(i)))* j);
+			}
+			store += lastDigit;
+			if (store % 11 == 0) {
+				return true;
+			}
+		}}
 		return valid;
 	}
 
@@ -840,8 +853,24 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean[] mark = new boolean[26];
+		int index = 0;
+		string = string.toLowerCase();
+		for( int i = 0; i<string.length(); i++) {
+			if ('a' <= string.charAt(i) && string.charAt(i) <= 'z') {
+				index = string.charAt(i) - 'a';
+			}else {
+				continue;
+			}
+			//System.out.println(index);
+			mark[index] = true;
+		}
+		for(int i = 0; i<26; i++) {
+			if(mark[i] == false) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -853,8 +882,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	
+		LocalDateTime l;
+		if(given instanceof LocalDate ) {
+			l = ((LocalDate) given).atStartOfDay();
+		}else {
+			l = (LocalDateTime)given;
+		}
+		l = l.plusSeconds(1000000000L);
+		return l;
 	}
 
 	/**
@@ -871,8 +907,21 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+	
+		Set<Integer> multiples = new HashSet<Integer>();
+		int sumOfM = 0;
+		int multiple = 0;
+		for (int j = 0; j<set.length; j++)
+			for (int k = 1; k*set[j]<i; k++) {
+				multiple = k*set[j];
+				//System.out.println(multiple);
+				multiples.add(multiple);
+				
+			}
+		Object[] m  = multiples.toArray();
+		for (int j = 0; j<multiples.size(); j++)
+			sumOfM += (Integer) m[j]; 
+		return sumOfM;
 	}
 
 	/**
@@ -912,8 +961,59 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		// iterate through string to throw into int array
+		Integer sum = 0;
+		ArrayList<Integer> ints = new ArrayList<Integer>();
+		ArrayList<Integer> ints2 = new ArrayList<Integer>();
+		ArrayList<Integer> ints3 = new ArrayList<Integer>();
+		ArrayList<Integer> ints4 = new ArrayList<Integer>();
+		if(string.contains("a")|| string.contains("-")) {
+			return false;
+		}
+		for (int i = 0; i<string.length(); i++) {
+			if(string.charAt(i) != ' ') {
+				ints.add(Integer.parseInt(Character.toString(string.charAt(i))));
+			}
+		}
+		// work through int array to find every second digit, starting from the right
+					//add to array
+		for (int i = 1; i<=ints.size(); i++) {
+			if(i%2==0) {
+				ints2.add(ints.get(i-1));
+			}else {
+				ints3.add(ints.get(i-1));
+			}
+		}
+		// double each value
+		//if doubled value > 9, subtract 9
+		for(int i = 0; i<ints2.size(); i++) {
+			if(ints2.get(i)*2 > 9) {
+				ints4.add(ints2.get(i)*2-9);
+			}else {
+				ints4.add(ints2.get(i)*2);
+			}
+			
+		}
+		//System.out.println(ints4);
+		// sum all values
+		for(int i = 0; i<ints4.size(); i++) {
+			ints3.add(ints4.get(i));
+		}
+		for(int i = 0; i<ints3.size(); i++) {
+			sum += ints3.get(i);
+		}
+		
+		if(sum%10 == 0) {
+			return true;
+		}else {
+			return false;
+		}
+				
+				// if mod sum by 10 = 0
+					//return true
+				// else
+					//return false
 	}
 
 	/**
@@ -944,7 +1044,38 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(string);
+		sb.deleteCharAt(sb.length()-1);
+		string = sb.toString();
+		Scanner s = new Scanner(string);
+		int count = 0 ,i=0;
+		int[] num = new int[2];
+		while (s.hasNext()) {
+			//System.out.println(s.hasNextInt());
+			if(s.hasNextInt() && count<3) {
+				count++;
+				num[i] = s.nextInt();
+				//System.out.println(num[i]);
+				i++;
+			}else {
+				s.next();
+			}
+		}
+		s.close();
+		if(string.contains("plus")) {
+			return (num[0]+num[1]);
+		}
+		if(string.contains("minus")) {
+			return num[0]-num[1];
+		}
+		if(string.contains("multiplied")) {
+			return num[0]*num[1];
+		}
+		if(string.contains("divided")) {
+			return num[0]/num[1];
+		}
 		return 0;
 	}
 
